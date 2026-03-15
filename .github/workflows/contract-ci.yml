@@ -24,11 +24,8 @@ jobs:
         with:
           key: soroban-contracts
 
-      - name: Install Soroban CLI
-        run: cargo install --locked soroban-cli
-
-      - name: Build contracts
-        run: soroban contract build
+      - name: Build contracts (WASM)
+        run: cargo build --target wasm32-unknown-unknown --release
 
       - name: Run tests
         run: cargo test
