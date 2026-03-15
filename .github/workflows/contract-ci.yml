@@ -20,7 +20,7 @@ jobs:
           components: rustfmt, clippy
 
       - name: Cache Cargo registry and build
-        uses: Swatinem/rust-cache@2
+        uses: Swatinem/rust-cache@v2
         with:
           key: soroban-contracts
 
