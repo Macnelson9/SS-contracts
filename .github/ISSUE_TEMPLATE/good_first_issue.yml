@@ -1,12 +1,15 @@
 name: 🌱 Good First Issue
 description: Template for creating beginner-friendly issues
 title: "[Good First Issue]: "
-labels: ["good-first-issue", "difficulty: easy"]
+labels: ["good first issue", "points-100-trivial"]
 body:
   - type: markdown
     attributes:
       value: |
-        This template helps create issues suitable for first-time contributors.
+        ### Drips / Waves
+        Tag **complexity honestly** and keep issues **Wave-sized**. See [Creating meaningful issues (Drips)](https://www.drips.network/blog/posts/creating-meaningful-issues).
+
+        This template defaults to **Trivial (~100 points)**. Default labels: `good first issue` + `points-100-trivial`. If the task grows beyond a single Wave, split it or ask a maintainer to swap the points label.
 
   - type: dropdown
     id: repository
@@ -32,11 +35,23 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity / points (Drips)
+      description: Good first issues should almost always stay Trivial. If you pick Medium/High, a maintainer must update labels to `points-150-medium` or `points-200-high`.
+      options:
+        - Trivial (~100 points) — default for this template
+        - Medium (~150 points) — maintainer will relabel
+        - High (~200 points) — maintainer will relabel / split issue
+    validations:
+      required: true
+
   - type: textarea
     id: description
     attributes:
       label: Task Description
-      description: Clear description of what needs to be done
+      description: Clear description of what needs to be done (the **why** and **what**).
       placeholder: |
         We need to add input validation for the invoice amount field.
         Currently, users can enter negative amounts which causes errors.
@@ -47,7 +62,7 @@ body:
     id: acceptance
     attributes:
       label: Acceptance Criteria
-      description: How do we know this is complete?
+      description: How do we know this is complete? (checklist)
       placeholder: |
         - [ ] Invoice amount must be positive
         - [ ] Error message shown for invalid input
@@ -60,17 +75,40 @@ body:
     id: resources
     attributes:
       label: Resources & Hints
-      description: Help the contributor get started
+      description: Key files, constraints, edge cases — direction without micromanaging.
       placeholder: |
         Files to modify:
         - src/components/invoices/InvoiceForm.tsx
         - src/lib/validations/invoice.schema.ts
-        
+
         Helpful links:
         - Zod validation: https://zod.dev
         - Similar implementation: src/components/auth/LoginForm.tsx
     validations:
       required: true
+
+  - type: textarea
+    id: review_focus
+    attributes:
+      label: Review focus (for maintainers)
+      description: What should reviewers prioritize?
+      placeholder: |
+        - Correctness and edge cases
+        - Tests
+        - Docs / onboarding clarity
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pr_expectations
+    attributes:
+      label: PR expectations
+      description: Contributor checklist (aligns with repo PR template).
+      options:
+        - label: PR description includes `Closes #<issue>` (replace with this issue number)
+        - label: Tests added/updated where behavior changes
+        - label: Docs updated if APIs or setup change
+        - label: cargo test (and fmt/clippy per CI) passes locally
 
   - type: dropdown
     id: effort

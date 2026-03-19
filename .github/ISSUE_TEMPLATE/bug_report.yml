@@ -6,7 +6,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report this bug! Please fill out the information below.
+        Thanks for taking the time to report this bug!
+
+        ### Drips / Waves
+        Maintainers should tag **complexity / points** (`points-100-trivial`, `points-150-medium`, `points-200-high`) once triaged. See [Creating meaningful issues (Drips)](https://www.drips.network/blog/posts/creating-meaningful-issues).
 
   - type: dropdown
     id: repository
@@ -17,6 +20,19 @@ body:
         - stellarsettle-contracts
         - stellarsettle-api
         - stellarsettle-app
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Suggested complexity / points (after triage)
+      description: Reporter guess is OK; maintainers set the final `points-*` label.
+      options:
+        - Unknown — needs triage
+        - Trivial (~100 points)
+        - Medium (~150 points)
+        - High (~200 points)
     validations:
       required: true
 
@@ -81,6 +97,16 @@ body:
         Error: Cannot read property 'amount' of undefined
         at InvoiceService.create (invoice.service.ts:45)
       render: shell
+
+  - type: textarea
+    id: pr_expectations
+    attributes:
+      label: Fix PR expectations (if you will open a PR)
+      description: Aligns with Drips / maintainer review.
+      placeholder: |
+        - [ ] Closes #<issue>
+        - [ ] Regression test(s)
+        - [ ] No unwrap() in Soroban contract paths (if applicable)
 
   - type: textarea
     id: additional

@@ -6,7 +6,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting a feature! Please provide details below.
+        Thanks for suggesting a feature!
+
+        ### Drips / Waves
+        Tag **complexity / points** honestly (`points-100-trivial`, `points-150-medium`, `points-200-high`) and keep scope **Wave-sized**. See [Creating meaningful issues (Drips)](https://www.drips.network/blog/posts/creating-meaningful-issues).
 
   - type: dropdown
     id: repository
@@ -21,11 +24,23 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity / points (Drips)
+      description: Pick the tier that matches real effort. Maintainers may adjust after discussion.
+      options:
+        - Trivial (~100 points)
+        - Medium (~150 points)
+        - High (~200 points)
+    validations:
+      required: true
+
   - type: textarea
     id: problem
     attributes:
       label: Problem Statement
-      description: What problem does this feature solve?
+      description: What problem does this feature solve? (**Why**)
       placeholder: As a seller, I need to be able to edit invoices after creation because...
     validations:
       required: true
@@ -34,10 +49,30 @@ body:
     id: solution
     attributes:
       label: Proposed Solution
-      description: How would you like this to work?
+      description: How would you like this to work? (**What** — direction, not every line of code)
       placeholder: Add an "Edit" button on the invoice details page that allows...
     validations:
       required: true
+
+  - type: textarea
+    id: implementation_hints
+    attributes:
+      label: Implementation hints
+      description: Key files, modules, edge cases, security/perf constraints.
+      placeholder: |
+        - Likely files: ...
+        - Edge cases: ...
+        - Must emit events / require auth for ...
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What does "done" look like?
+      placeholder: |
+        - [ ] Behavior X works
+        - [ ] Tests cover ...
+        - [ ] docs/API or README updated
 
   - type: textarea
     id: alternatives
@@ -56,6 +91,16 @@ body:
         - Medium - Would improve experience
         - High - Blocking important use case
         - Critical - Platform won't work without it
+
+  - type: checkboxes
+    id: pr_expectations
+    attributes:
+      label: PR expectations
+      options:
+        - label: PR description includes `Closes #<issue>`
+        - label: Tests added/updated
+        - label: Documentation updated if APIs change
+        - label: cargo test / CI checks pass (contracts repo)
 
   - type: checkboxes
     id: willing

@@ -4,6 +4,8 @@
 
 Closes #<!-- issue number -->
 
+<!-- If this PR is for a Drips Wave: match the issue’s `points-*` label (100 / 150 / 200). See https://www.drips.network/blog/posts/creating-meaningful-issues -->
+
 ## Type of Change
 
 <!-- Mark with an 'x' all that apply -->

@@ -40,3 +40,6 @@ tarpaulin-report.html
 # Debug and logs
 *.log
 debug/
+
+# Maintainer-only GitHub issue tooling (not published)
+/scripts/
