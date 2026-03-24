@@ -3,7 +3,10 @@
 use super::*;
 use invoice_token::{InvoiceToken, InvoiceTokenClient};
 use soroban_sdk::token::{Client as TokenClient, StellarAssetClient as AssetClient};
-use soroban_sdk::{testutils::Address as _, Address, Env, String as SorobanString, Symbol};
+use soroban_sdk::{
+    testutils::{Address as _, Ledger as _},
+    Address, Env, String as SorobanString, Symbol,
+};
 
 #[test]
 fn test_integration_escrow_lifecycle_happy_path() {
@@ -31,7 +34,7 @@ fn test_integration_escrow_lifecycle_happy_path() {
     let payment_token_asset = AssetClient::new(&env, &payment_token_id.address());
 
     // 5. Initialize Contracts
-    let invoice_id = Symbol::new(&env, "INV-001");
+    let invoice_id = Symbol::new(&env, "INV001");
     // Token initialization with escrow as minter
     inv_token_client.initialize(
         &admin,
@@ -76,9 +79,12 @@ fn test_integration_escrow_lifecycle_happy_path() {
     assert_eq!(payment_token_client.balance(&admin), 30);
     assert_eq!(payment_token_client.balance(&buyer), 970);
     assert_eq!(payment_token_client.balance(&escrow_id), 0);
-    
+
     // Status check
-    assert_eq!(escrow_client.get_escrow_status(&invoice_id), EscrowStatus::Settled);
+    assert_eq!(
+        escrow_client.get_escrow_status(&invoice_id),
+        EscrowStatus::Settled
+    );
 }
 
 #[test]
@@ -101,7 +107,7 @@ fn test_integration_refund_lifecycle() {
     let payment_token_client = TokenClient::new(&env, &payment_token_id.address());
     let payment_token_asset = AssetClient::new(&env, &payment_token_id.address());
 
-    let invoice_id = Symbol::new(&env, "INV-FAIL");
+    let invoice_id = Symbol::new(&env, "INVFAIL");
     inv_token_client.initialize(
         &admin,
         &SorobanString::from_str(&env, "Failed Invoice"),
@@ -142,5 +148,8 @@ fn test_integration_refund_lifecycle() {
 
     // Verify buyer got their funds back $1000
     assert_eq!(payment_token_client.balance(&buyer), 1000);
-    assert_eq!(escrow_client.get_escrow_status(&invoice_id), EscrowStatus::Refunded);
+    assert_eq!(
+        escrow_client.get_escrow_status(&invoice_id),
+        EscrowStatus::Refunded
+    );
 }
