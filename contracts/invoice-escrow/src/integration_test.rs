@@ -75,10 +75,13 @@ fn test_integration_escrow_lifecycle_happy_path() {
     // 9. Record Payment (Payer settles the invoice)
     escrow_client.record_payment(&invoice_id, &payer, &amount);
 
-    // Verify settlement balances: 3% fee to admin ($30), 97% to buyer/investor ($970)
+    // Verify settlement balances after the payer transfers funds into escrow.
+    // The investor receives the net proceeds, the admin receives the fee,
+    // and the original funded principal remains locked in escrow.
+    assert_eq!(payment_token_client.balance(&payer), 0);
     assert_eq!(payment_token_client.balance(&admin), 30);
     assert_eq!(payment_token_client.balance(&buyer), 970);
-    assert_eq!(payment_token_client.balance(&escrow_id), 0);
+    assert_eq!(payment_token_client.balance(&escrow_id), 1000);
 
     // Status check
     assert_eq!(
