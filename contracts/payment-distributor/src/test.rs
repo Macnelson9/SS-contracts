@@ -15,7 +15,7 @@ fn test_initialize_and_distribute() {
     let client = PaymentDistributorClient::new(&env, &distributor_id);
 
     let admin = Address::generate(&env);
-    
+
     // Initialize
     client.initialize(&admin);
 
@@ -28,7 +28,7 @@ fn test_initialize_and_distribute() {
     // Mint token to contract
     let amount = 1000;
     token_asset.mint(&distributor_id, &amount);
-    
+
     let recipient = Address::generate(&env);
 
     // Distribute
@@ -36,5 +36,8 @@ fn test_initialize_and_distribute() {
     client.distribute(&token_client.address, &recipient, &distribute_amt);
 
     assert_eq!(token_client.balance(&recipient), distribute_amt);
-    assert_eq!(token_client.balance(&distributor_id), amount - distribute_amt);
+    assert_eq!(
+        token_client.balance(&distributor_id),
+        amount - distribute_amt
+    );
 }

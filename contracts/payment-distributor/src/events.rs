@@ -6,6 +6,10 @@ pub fn initialized(env: &Env, admin: &Address) {
 }
 
 pub fn distributed(env: &Env, token: &Address, recipient: &Address, amount: i128) {
-    let topics = (Symbol::new(env, "distributed"), token.clone(), recipient.clone());
+    let topics = (
+        Symbol::new(env, "distributed"),
+        token.clone(),
+        recipient.clone(),
+    );
     env.events().publish(topics, amount);
 }
